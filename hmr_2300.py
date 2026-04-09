@@ -1,4 +1,4 @@
-"""
+"""
 Created on Tue Jan 23 13:44:05 2018
 @author: Sylvain Decombe
 """
@@ -221,7 +221,7 @@ class Magnetometer:
             self.__api.devid = tmp.split("ID= ")[1].replace("\r", "")
             print(self.__api.devid)
 
-            init_cmds = [self.__api.factory_settings_cmd, self.__api.format_cmd(self.__format), self.__api.sample_rate_cmd(100), self.__api.continuous_stream_cmd]
+            init_cmds = [self.__api.factory_settings_cmd, self.__api.format_cmd(self.__format), self.__api.sample_rate_cmd(10), self.__api.continuous_stream_cmd]
 
             for cmd in init_cmds:
                 self.__ser.write(self.__api.write_enable_cmd)
@@ -239,16 +239,18 @@ class Magnetometer:
     def infinite_read(self):
         while True:
             self.read_stream()
-
+            time.sleep(0.5)
     def timed_read(self, loop_time=1):
         t_end = time.time() + 60 * loop_time
 
         while time.time() < t_end:
-            self.read_stream()   
+            self.read_stream()
+            time.sleep(0.5)
         
         return True
 
     def read_stream(self):
+        self.__ser.reset_input_buffer()
         eol = b'\r'
         line = bytearray()
         while True:
