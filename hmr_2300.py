@@ -1,4 +1,4 @@
-"""
+"""
 Created on Tue Jan 23 13:44:05 2018
 @author: Sylvain Decombe
 """
@@ -54,7 +54,7 @@ class HMR2300_API:
 
     def baudrate_cmd(self, baudrate):
         """ 19200 correspond to F and 9600 to S """
-        if baudrate is 19200:
+        if baudrate == 19200:
             baudrate = "F"
         else:
             baudrate = "S"
